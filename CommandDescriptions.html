@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OALISP Komut Listesi - Koyu Tema</title>
+  
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 40px;
+      background-color: #121212;
+      color: #e0e0e0;
+    }
+    
+    .header-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .logo {
+      width: 50px;
+      margin-right: 10px;
+    }
+
+    h1 {
+      color: #ffffff;
+      margin: 0;
+    }
+
+    .filters {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      width: 300px;
+      font-size: 16px;
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      color: #fff;
+    }
+
+    label {
+      margin: 0 10px;
+      font-size: 15px;
+    }
+
+    input[type="checkbox"] {
+      accent-color: #4caf50;
+    }
+
+    .material-icons {
+      font-size: 24px;
+    }
+
+    /* Kategori İkon Renkleri */
+    #chkMimari:checked + label i {
+      color: #ffeb3b; /* Mimari için sarı */
+    }
+
+    #chkStatik:checked + label i {
+      color: #f44336; /* Statik için kırmızı */
+    }
+
+    #chkAltyapi:checked + label i {
+      color: #2196f3; /* Altyapı için mavi */
+    }
+
+    #chkPeyzaj:checked + label i {
+      color: #4caf50; /* Peyzaj için yeşil */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 12px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #2c2c2c;
+      color: #ffffff;
+    }
+
+    td {
+      background-color: #1e1e1e;
+    }
+
+    .yes {
+      color: #4caf50;
+      font-weight: bold;
+    }
+
+    .no {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .desc {
+      text-align: left;
+    }
+
+    #noResults {
+      text-align: center;
+      margin-top: 10px;
+      color: #e0e0e0;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header-container">
+  <!-- <img src="logo.png" alt="Logo" class="logo"> -->
+  <h1>OALisp Komutları ve Açıklamaları</h1>
+</div>
+
+<div class="filters">
+  <input type="text" id="searchInput" placeholder="Komut ya da açıklama ara..." onkeyup="filterTable()">
+  <br><br>
+  <label><input type="checkbox" id="chkStatik" checked onchange="filterTable()"> 
+    <i class="material-icons">apartment</i> Statik</label>
+  <label><input type="checkbox" id="chkMimari" checked onchange="filterTable()"> 
+    <i class="material-icons">home</i> Mimari</label>
+  <label><input type="checkbox" id="chkAltyapi" checked onchange="filterTable()"> 
+    <i class="material-icons">water</i> Altyapı</label>
+  <label><input type="checkbox" id="chkPeyzaj" checked onchange="filterTable()"> 
+    <i class="material-icons">grass</i> Peyzaj</label>
+</div>
+
+<p id="noResults">Eşleşen komut bulunamadı.</p>
+
+<table id="commandTable">
+  <thead>
+    <tr>
+      <th>Komut</th>
+      <th>Açıklama</th>
+      <th>Statik</th>
+      <th>Mimari</th>
+      <th>Altyapı</th>
+      <th>Peyzaj</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A0</td>
+      <td class="desc">Proje çıktısının kaç adet A0 kağıda karşılık geldiğini hesaplayan lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>ALN</td>
+      <td class="desc">Alan m² hesaplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>AE</td>
+      <td class="desc">Metraj hesaplamasında çarpan adet ekleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>ASI</td>
+      <td class="desc">Metrajda belirli bir öğenin adetini silme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>ASM</td>
+      <td class="desc">Asmolen kiriş çizimi için kullanılan lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>ASMN</td>
+      <td class="desc">Asmolen kiriş döşeme ismi yazma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>ATC</td>
+      <td class="desc">Metni eğriye göre hizalama lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>BBD</td>
+      <td class="desc">Ekleme noktası yerini koruyarak blok baz noktasını değiştiren lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>BBDR</td>
+      <td class="desc">Blok konumunu koruyarak blok baz noktasını değiştiren lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>BBH</td>
+      <td class="desc">Bina boru hattı çizimi lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>BEA</td>
+      <td class="desc">Blok alanlarını Excel’e aktaran lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>BHC</td>
+      <td class="desc">Baca hattı çizimi lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>BID</td>
+      <td class="desc">Nesne isimlerini değiştiren lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RBID</td>
+      <td class="desc">Nesne isimlerini değiştiren ve değerlerini sıfırlayan lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>BKP</td>
+      <td class="desc">Bodrum kapama perdesi çizimi lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>BOL</td>
+      <td class="desc">Seçilen noktalar arasını bölme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RBOL</td>
+      <td class="desc">Seçilen noktalar arasını bölen değerleri sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>BSE</td>
+      <td class="desc">Yazı başına ve sonuna ekleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>BTK</td>
+      <td class="desc">Bitki sayım lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>CB</td>
+      <td class="desc">Blok kopyalama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RB</td>
+      <td class="desc">Yeni blok kopyalama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>CY</td>
+      <td class="desc">Seçilen yazılardaki sayıların çarpımını hesaplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>CER</td>
+      <td class="desc">Çerçeve çizimi lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DAD</td>
+      <td class="desc">Metraj adet değişikliği lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DAY</td>
+      <td class="desc">Donatı çapını aşağı yuvarlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DYY</td>
+      <td class="desc">Donatı çapını yukarı yuvarlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DCD</td>
+      <td class="desc">Donatı uzunluğunu değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RDCD</td>
+      <td class="desc">Donatı uzunluğunu değiştirme değerlerini sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DEG</td>
+      <td class="desc">Donatılara değişken yazma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DDS</td>
+      <td class="desc">Düşey donatı sayım lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DEC</td>
+      <td class="desc">Donatıya uzunluk ekleme ve çıkarma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DF</td>
+      <td class="desc">İç ölçü atma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>SH</td>
+      <td class="desc">Hatch maker lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DH</td>
+      <td class="desc">Hatch maker lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DKOT</td>
+      <td class="desc">Deniz kotu değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>DKS</td>
+      <td class="desc">Deniz kotu silme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>DUA</td>
+      <td class="desc">Duvar üst-alt kota göre uzunluk yazma lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>DOT</td>
+      <td class="desc">Donatıları taşıma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DUD</td>
+      <td class="desc">Etriye donatı uzunluğunu değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DYS</td>
+      <td class="desc">Ölçülerin yazılarını sabitleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>E2P</td>
+      <td class="desc">Elipsleri polylinelara çevirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>EGM</td>
+      <td class="desc">Eğim bulma lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>EKLE</td>
+      <td class="desc">Yazı ve ölçü ekleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>EYD</td>
+      <td class="desc">Etriye yazısını değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>EKOT</td>
+      <td class="desc">Eğim kotu bulma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>EM2</td>
+      <td class="desc">Emsal metrekare tablo çizim lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>ETC</td>
+      <td class="desc">Etap'tan temel çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>ETR</td>
+      <td class="desc">Manuel etriye çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>OETR</td>
+      <td class="desc">Otomatik etriye çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>FLZ</td>
+      <td class="desc">Filiz donatısı çizme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>GTD</td>
+      <td class="desc">Grafikten temel ilave donatı çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>HB</td>
+      <td class="desc">Hatch çerçevelendirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>HCM</td>
+      <td class="desc">Tek hasırın ismini düzenleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>HED</td>
+      <td class="desc">Hasır ebatları düzenleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RHED</td>
+      <td class="desc">Hasır ebatları düzenleme değerlerini sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>HJ</td>
+      <td class="desc">Hatch birleştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>HM</td>
+      <td class="desc">Hatch taşıma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>HRG</td>
+      <td class="desc">Hasır cinslerini renklerine göre gruplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>HSP</td>
+      <td class="desc">Statik hesaplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>HT</td>
+      <td class="desc">Hızlı trimleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>HYU</td>
+      <td class="desc">Hissedilebilir yüzey çizim lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>RHR</td>
+      <td class="desc">Düz hasır çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TRHR</td>
+      <td class="desc">Ters hasır çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>QHR</td>
+      <td class="desc">Çift yönlü hasır çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>ICC</td>
+      <td class="desc">Obje içine maksimum daire çizme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>IHC</td>
+      <td class="desc">İçme suyu hat çizim lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>JJ</td>
+      <td class="desc">Line / Pline / 3Dpline / Spline nesnelerini polyline yapıp birleştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>KAP</td>
+      <td class="desc">Kolon aplikasyon paftalama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KATD</td>
+      <td class="desc">Kolon ebatlarına göre gruplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KCD</td>
+      <td class="desc">Kiriş çapraz donatısı çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KDON</td>
+      <td class="desc">Perde / Kolon kafa donatısı çizme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KCE</td>
+      <td class="desc">Kot çizme ve ekleme lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KCED</td>
+      <td class="desc">Çizilen kot değerlerini değiştirme lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KIY</td>
+      <td class="desc">Kot işareti yerleştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KKV</td>
+      <td class="desc">Kesit kotlarını verme lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KO</td>
+      <td class="desc">Kolon aplikasyon ölçüsü atma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KOOR</td>
+      <td class="desc">Köşe koordinatlarını yazan lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KOT</td>
+      <td class="desc">Kot düzenleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>KOTUP</td>
+      <td class="desc">Kot güncelleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>KPH</td>
+      <td class="desc">Kapı / Pencere listesi hazırlama lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KPKC</td>
+      <td class="desc">Köy evleri için plankote çizim lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>KPL</td>
+      <td class="desc">Kapı / Pencere listesini Excele aktarma lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KUK</td>
+      <td class="desc">Kiriş üst kot yazma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KUKRES</td>
+      <td class="desc">Kiriş üst kot yazma değerlerini sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KSDN</td>
+      <td class="desc">Kiriş kolon döşeme nervür otomatik numaralama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>KYB</td>
+      <td class="desc">Kolon isim ve ebat yazılarını birleştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>LCS</td>
+      <td class="desc">Lateral spring bağlantı hattı çizim lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>LDON</td>
+      <td class="desc">Komuta göre otomatik layer seçimi özelliği açma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>LDOFF</td>
+      <td class="desc">Komuta göre otomatik layer seçimi özelliği kapatma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>LID</td>
+      <td class="desc">Layer isim değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>LOD</td>
+      <td class="desc">Layout düzenleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>MAD</td>
+      <td class="desc">Mantar donatı çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>DOKU</td>
+      <td class="desc">Mantar donatı oku çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MBD</td>
+      <td class="desc">Daha önce yerleştirilmiş olan m2 bloklarını güncelleme lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MBL</td>
+      <td class="desc">Düzenlenmiş m2 bloklarını Excel'e aktarma lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MBY</td>
+      <td class="desc">M2 bloklarını seçilen alan poligonlarının merkezine yerleştirme lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MKE</td>
+      <td class="desc">Mahal kaplama Excel listesi hazırlama lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MML</td>
+      <td class="desc">Mahal malzeme listesi Excel oluşturma lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MNE</td>
+      <td class="desc">M2 blokları mahal numaralarını arttırma ya da eksiltme lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MNV</td>
+      <td class="desc">M2 bloklarını seçilen sırada numaralandırma lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MAKELT</td>
+      <td class="desc">Line type oluşturma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>MDA</td>
+      <td class="desc">Metraj donatı adeti yazma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RMDA</td>
+      <td class="desc">Metraj donatı adeti yazma değerlerini sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MET</td>
+      <td class="desc">Metraj çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>GMET</td>
+      <td class="desc">Genel metraj çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MIR</td>
+      <td class="desc">Otomatik mirror alma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MLAD</td>
+      <td class="desc">Metraj layer değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>M0</td>
+      <td class="desc">M2 değerlerini sıfırlama lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>MPS</td>
+      <td class="desc">Metraj poz silme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>NI</td>
+      <td class="desc">Çerçeveli ya da çerçevesiz numaralandırma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>O2F</td>
+      <td class="desc">Textleri Ø 'ye dönüştürme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>QW</td>
+      <td class="desc">Osmod değerlerini full açma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>PADH</td>
+      <td class="desc">Pursantaj ile as ve donatı hesaplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PALL</td>
+      <td class="desc">Otomatik purge lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PBA</td>
+      <td class="desc">Manuel perde boy açılımı lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>OPBA</td>
+      <td class="desc">Otomatik perde boy açılımı lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PDD</td>
+      <td class="desc">Panel dikey donatı çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PKAD</td>
+      <td class="desc">Perde / Kolon adet değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PKC</td>
+      <td class="desc">Plankote çizim lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>POD</td>
+      <td class="desc">Patlamış ölçü düzenleme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PRP</td>
+      <td class="desc">Parapet çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PUB</td>
+      <td class="desc">Paralel uçları birleştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PYD</td>
+      <td class="desc">Perde yatay donatı lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>PYEK</td>
+      <td class="desc">Peyzaj yol eğim kotları hesaplama lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RTE</td>
+      <td class="desc">Açıların toplam adet yazma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>SAFT</td>
+      <td class="desc">Şaft çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>S2D</td>
+      <td class="desc">Sta layerlarını şirket layerlarına değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>SDK</td>
+      <td class="desc">Sabit değerli kopyalama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RSDK</td>
+      <td class="desc">Sabit değerli kopyalama değerleri sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>SDT</td>
+      <td class="desc">Sabit değerli taşıma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>RSDT</td>
+      <td class="desc">Sabit değerli taşıma değerleri sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>SIRA</td>
+      <td class="desc">Text sıralama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>SNN</td>
+      <td class="desc">Snap değerini sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>SR</td>
+      <td class="desc">Noktalara göre snap değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>SRR</td>
+      <td class="desc">Line veya yazıya göre snap değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>SOM</td>
+      <td class="desc">Seçimi ortadan aynalama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>SPR</td>
+      <td class="desc">Spring çizim lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>SX</td>
+      <td class="desc">Çizimin tamamını büyütme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>SYD</td>
+      <td class="desc">Yazıları nesneye göre döndürme lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>TAS</td>
+      <td class="desc">Toplam as hesaplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TB</td>
+      <td class="desc">Text’i boşluklardan bölme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TD</td>
+      <td class="desc">Temel donatı çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TDOKU</td>
+      <td class="desc">Temel ölçü layerları değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TEA</td>
+      <td class="desc">Toplam emsal alanı Excel’e aktarma lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>THVL</td>
+      <td class="desc">Donatı tahvili yapma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TID</td>
+      <td class="desc">Temel ilave donatı çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TMR</td>
+      <td class="desc">Text mirror lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>TRD</td>
+      <td class="desc">Tablo renk değiştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TRS</td>
+      <td class="desc">Tablo renk sıfırlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TRC</td>
+      <td class="desc">Tabloda seçilen değerin aynı değerde olanlarının rendini değiştiren lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TSM</td>
+      <td class="desc">Text style merge (yazı stili birleştirme) lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>TPU</td>
+      <td class="desc">Proje toplam uzunluğu hesaplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>TTO</td>
+      <td class="desc">Toplam tablosu oluşturma lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>TY</td>
+      <td class="desc">Seçilen yazılardaki sayıların toplamını hesaplama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>UDB</td>
+      <td class="desc">Uzun donatıları bulma lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>YEK</td>
+      <td class="desc">Yol eğim kotu lispi.</td>
+      <td class="no">&#10008;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>YK</td>
+      <td class="desc">Belirtilen iki nokta arasında nesneleri eşit kopyalama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>YLP</td>
+      <td class="desc">Yelpaza donatı çizim lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>YUV</td>
+      <td class="desc">Uzunluk yuvarlama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+      <td class="no">&#10008;</td>
+    </tr>
+    <tr>
+      <td>YZB</td>
+      <td class="desc">Yazıları birleştirme lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+    <tr>
+      <td>ZX</td>
+      <td class="desc">Yazının değerini diğer yazıya kopyalama lispi.</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+      <td class="yes">&#10004;</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+function filterTable() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const rows = document.querySelectorAll("#commandTable tbody tr");
+  const statikChecked = document.getElementById("chkStatik").checked;
+  const mimariChecked = document.getElementById("chkMimari").checked;
+  const altyapiChecked = document.getElementById("chkAltyapi").checked;
+  const peyzajChecked = document.getElementById("chkPeyzaj").checked;
+
+  let visibleCount = 0;
+
+  rows.forEach(row => {
+    const command = row.cells[0].innerText.toLowerCase();
+    const description = row.cells[1].innerText.toLowerCase();
+
+    const matchText = command.includes(input) || description.includes(input);
+
+    const isStatik = row.cells[2].classList.contains("yes");
+    const isMimari = row.cells[3].classList.contains("yes");
+    const isAltyapi = row.cells[4].classList.contains("yes");
+    const isPeyzaj = row.cells[5].classList.contains("yes");
+
+    const matchKategori =
+      (statikChecked && isStatik) ||
+      (mimariChecked && isMimari) ||
+      (altyapiChecked && isAltyapi) ||
+      (peyzajChecked && isPeyzaj);
+
+    if (matchText && matchKategori) {
+      row.style.display = "";
+      visibleCount++;
+    } else {
+      row.style.display = "none";
+    }
+  });
+
+  document.getElementById("noResults").style.display = visibleCount === 0 ? "block" : "none";
+}
+</script>
+
+</body>
+</html>
