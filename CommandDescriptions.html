@@ -3,144 +3,569 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OALISP Komut Listesi - Koyu Tema</title>
-  
-  <!-- Material Icons -->
+  <title>OALISP Komut Listesi</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
+  
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 40px;
-      background-color: #121212;
-      color: #e0e0e0;
+    :root {
+      color-scheme: dark;
+      --page: #111820;
+      --panel: #18232d;
+      --panel-2: #202c36;
+      --line: #334553;
+      --line-soft: #273744;
+      --text: #edf5fb;
+      --muted: #9fb2c3;
+      --accent: #31a7c8;
+      --danger: #ef5b55;
     }
-    
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(49, 167, 200, 0.18), transparent 34rem),
+        linear-gradient(135deg, #0f1821 0%, #17232c 48%, #101820 100%);
+      color: var(--text);
+    }
+
+    .page-shell {
+      width: min(1480px, calc(100% - 36px));
+      margin: 24px auto;
+    }
+
     .header-container {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      gap: 16px;
+      margin-bottom: 16px;
+      padding: 18px 20px;
+      background: rgba(24, 35, 45, 0.88);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+      backdrop-filter: blur(10px);
     }
 
-    .logo {
-      width: 50px;
-      margin-right: 10px;
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     h1 {
       color: #ffffff;
       margin: 0;
+      font-size: 26px;
+      font-weight: 750;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .summary-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 13px;
+      border: 1px solid rgba(49, 167, 200, 0.35);
+      border-radius: 8px;
+      background: rgba(49, 167, 200, 0.10);
+      color: #d9f7ff;
+      font-size: 13px;
+      white-space: nowrap;
     }
 
     .filters {
-      margin-bottom: 20px;
-      text-align: center;
+      display: grid;
+      grid-template-columns: minmax(260px, 420px) 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+      padding: 14px;
+      background: rgba(24, 35, 45, 0.80);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
     }
 
     input[type="text"] {
-      padding: 8px;
-      width: 300px;
-      font-size: 16px;
-      background-color: #1e1e1e;
-      border: 1px solid #333;
+      width: 100%;
+      min-height: 42px;
+      padding: 0 14px;
+      font-size: 15px;
+      background-color: #101922;
+      border: 1px solid #36505f;
+      border-radius: 8px;
       color: #fff;
+      outline: none;
+      transition: border-color 140ms ease, box-shadow 140ms ease;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(49, 167, 200, 0.18);
+    }
+
+    .filter-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 8px;
     }
 
     label {
-      margin: 0 10px;
-      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 0 11px;
+      border: 1px solid #334553;
+      border-radius: 8px;
+      background: #1d2a34;
+      color: #dce9f2;
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+    }
+
+    label:hover {
+      border-color: #4b6678;
+      background: #243543;
+      transform: translateY(-1px);
+    }
+
+
+    input[type="checkbox"]:not(:checked) + label {
+      opacity: 0.52;
+      border-color: #2a3945;
+      background: #17232c;
+      color: #8fa4b4;
+    }
+
+    input[type="checkbox"]:checked + label {
+      border-color: rgba(49, 167, 200, 0.50);
+      background: linear-gradient(180deg, rgba(49, 167, 200, 0.16), rgba(31, 47, 58, 0.92));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 0 0 1px rgba(49, 167, 200, 0.08);
     }
 
     input[type="checkbox"] {
-      accent-color: #4caf50;
+      accent-color: var(--accent);
     }
 
     .material-icons {
-      font-size: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      font-family: "Material Icons";
+      font-size: 21px;
+      font-weight: normal;
+      font-style: normal;
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: none;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-feature-settings: "liga";
+      -webkit-font-smoothing: antialiased;
+      font-feature-settings: "liga";
     }
 
-    /* Kategori İkon Renkleri */
-    #chkMimari:checked + label i {
-      color: #ffeb3b; /* Mimari için sarı */
-    }
+    #chkMimari:checked + label .material-icons { color: #ffeb3b; }
+    #chkStatik:checked + label .material-icons { color: #ff6961; }
+    #chkAltyapi:checked + label .material-icons { color: #42a5f5; }
+    #chkPeyzaj:checked + label .material-icons { color: #66d17a; }
+    #chkMekanik:checked + label .material-icons { color: #d48cff; }
+    #chkElektrik:checked + label .material-icons { color: #ffb347; }
 
-    #chkStatik:checked + label i {
-      color: #f44336; /* Statik için kırmızı */
-    }
-
-    #chkAltyapi:checked + label i {
-      color: #2196f3; /* Altyapı için mavi */
-    }
-
-    #chkPeyzaj:checked + label i {
-      color: #4caf50; /* Peyzaj için yeşil */
+    .table-wrap {
+      overflow: auto;
+      max-height: calc(100vh - 190px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(16, 24, 32, 0.76);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
     }
 
     table {
       width: 100%;
+      min-width: 980px;
       border-collapse: collapse;
     }
 
     th, td {
-      border: 1px solid #333;
-      padding: 12px;
+      border-bottom: 1px solid var(--line-soft);
+      padding: 10px 12px;
       text-align: center;
     }
 
     th {
-      background-color: #2c2c2c;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background-color: #253542;
       color: #ffffff;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0;
     }
 
     td {
-      background-color: #1e1e1e;
+      background-color: rgba(24, 35, 45, 0.78);
+      font-size: 14px;
     }
 
-    .yes {
-      color: #4caf50;
+    th:first-child,
+    td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      width: 105px;
+      min-width: 105px;
+      background: #142633;
+      box-shadow: 1px 0 0 var(--line-soft);
+    }
+
+    th:first-child {
+      z-index: 3;
+      background: #263b4a;
+    }
+
+    td:first-child {
+      color: #dff8ff;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .command-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 54px;
+      height: 26px;
+      padding: 0 10px;
+      border: 1px solid rgba(49, 167, 200, 0.48);
+      border-radius: 7px;
+      background: linear-gradient(180deg, rgba(49, 167, 200, 0.16), rgba(49, 167, 200, 0.08));
+      color: #e4fbff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.10);
+    }
+
+    tbody tr:hover .command-badge {
+      border-color: rgba(126, 220, 241, 0.72);
+      background: linear-gradient(180deg, rgba(49, 167, 200, 0.26), rgba(49, 167, 200, 0.13));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.10), 0 0 14px rgba(49, 167, 200, 0.18);
+    }
+
+    tbody tr:nth-child(even) td {
+      background-color: rgba(29, 42, 52, 0.78);
+    }
+
+    tbody tr:hover td {
+      background-color: rgba(49, 167, 200, 0.14);
+    }
+
+    tbody tr:hover td:first-child {
+      color: #ffffff;
+      background: #17384a;
+    }
+
+    .yes, .no {
       font-weight: bold;
     }
 
-    .no {
-      color: #e74c3c;
-      font-weight: bold;
+    td.yes, td.no {
+      width: 62px;
+      font-size: 0;
+    }
+
+    td.yes::before, td.no::before {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 18px;
+      border-radius: 6px;
+      font-size: 14px;
+      line-height: 1;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-weight: 900;
+    }
+
+    td.yes::before {
+      content: "\2713";
+      color: #57d36d;
+      background: rgba(76, 175, 80, 0.18);
+      border: 1px solid rgba(76, 175, 80, 0.34);
+    }
+
+    td.no::before {
+      content: "";
+      background:
+        linear-gradient(45deg, transparent calc(50% - 1px), #ff655d calc(50% - 1px), #ff655d calc(50% + 1px), transparent calc(50% + 1px)) center / 12px 12px no-repeat,
+        linear-gradient(-45deg, transparent calc(50% - 1px), #ff655d calc(50% - 1px), #ff655d calc(50% + 1px), transparent calc(50% + 1px)) center / 12px 12px no-repeat,
+        rgba(239, 91, 85, 0.16);
+      border: 1px solid rgba(239, 91, 85, 0.32);
     }
 
     .desc {
+      min-width: 360px;
       text-align: left;
+      color: #d8e5ee;
+      line-height: 1.35;
+    }
+
+
+
+
+
+    .filter-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-left: 6px;
+    }
+
+    .control-btn {
+      min-height: 36px;
+      padding: 0 12px;
+      border: 1px solid #36505f;
+      border-radius: 8px;
+      background: #142433;
+      color: #d9f7ff;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+    }
+
+    .control-btn:hover {
+      border-color: rgba(49, 167, 200, 0.58);
+      background: #193247;
+      transform: translateY(-1px);
+    }
+
+    .mode-toggle {
+      min-height: 36px;
+      padding: 0 11px;
+      border-color: rgba(212, 140, 255, 0.34);
+    }
+
+    #matchAllMode:checked + label {
+      border-color: rgba(212, 140, 255, 0.66);
+      background: linear-gradient(180deg, rgba(156, 39, 176, 0.22), rgba(31, 47, 58, 0.92));
+      color: #f2dcff;
+    }
+
+    .detail-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(5, 10, 14, 0.62);
+      backdrop-filter: blur(4px);
+    }
+
+    .detail-overlay.show {
+      display: flex;
+    }
+
+    .detail-dialog {
+      width: min(560px, 100%);
+      border: 1px solid rgba(49, 167, 200, 0.32);
+      border-radius: 8px;
+      background: #15222d;
+      box-shadow: 0 22px 52px rgba(0, 0, 0, 0.38);
+      overflow: hidden;
+    }
+
+    .detail-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 16px;
+      background: #1e3140;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .detail-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0;
+      font-size: 18px;
+      color: #ffffff;
+    }
+
+    .detail-body {
+      padding: 16px;
+      color: #d8e5ee;
+      line-height: 1.48;
+    }
+
+    .detail-units {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .unit-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(76, 175, 80, 0.34);
+      background: rgba(76, 175, 80, 0.14);
+      color: #c9f8cf;
+      font-size: 13px;
+    }
+
+    .detail-close {
+      width: 34px;
+      height: 30px;
+      border: 1px solid #405565;
+      border-radius: 8px;
+      background: #182735;
+      color: #eaf6ff;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .copy-toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 20;
+      min-width: 150px;
+      padding: 11px 14px;
+      border: 1px solid rgba(49, 167, 200, 0.42);
+      border-radius: 8px;
+      background: rgba(16, 25, 34, 0.94);
+      color: #e4fbff;
+      box-shadow: 0 16px 34px rgba(0, 0, 0, 0.30);
+      font-size: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .copy-toast.show {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     #noResults {
-      text-align: center;
-      margin-top: 10px;
-      color: #e0e0e0;
       display: none;
+      margin: 16px 0;
+      padding: 18px;
+      text-align: center;
+      color: #f0c7c7;
+      background: rgba(239, 91, 85, 0.10);
+      border: 1px solid rgba(239, 91, 85, 0.24);
+      border-radius: 8px;
+    }
+
+    @media (max-width: 820px) {
+      .page-shell {
+        width: calc(100% - 20px);
+        margin: 10px auto;
+      }
+
+      .header-container {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .filters {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-options {
+        justify-content: flex-start;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
 <body>
+<div class="page-shell">
 
 <div class="header-container">
-  <!-- <img src="logo.png" alt="Logo" class="logo"> -->
-  <h1>OALisp Komutları ve Açıklamaları</h1>
+  <div class="title-block">
+    <h1>OALisp Komutları ve Açıklamaları</h1>
+    <p class="subtitle">CAD projelerinde kullanılan LISP komutlarının birimlere göre erişim tablosu</p>
+  </div>
+  <div class="summary-pill" id="resultSummary">Toplam 0 komut</div>
 </div>
 
 <div class="filters">
   <input type="text" id="searchInput" placeholder="Komut ya da açıklama ara..." onkeyup="filterTable()">
-  <br><br>
-  <label><input type="checkbox" id="chkStatik" checked onchange="filterTable()"> 
-    <i class="material-icons">apartment</i> Statik</label>
-  <label><input type="checkbox" id="chkMimari" checked onchange="filterTable()"> 
-    <i class="material-icons">home</i> Mimari</label>
-  <label><input type="checkbox" id="chkAltyapi" checked onchange="filterTable()"> 
-    <i class="material-icons">water</i> Altyapı</label>
-  <label><input type="checkbox" id="chkPeyzaj" checked onchange="filterTable()"> 
-    <i class="material-icons">grass</i> Peyzaj</label>
+  <div class="filter-options">
+    <input type="checkbox" id="chkStatik" checked onchange="filterTable()" hidden>
+    <label for="chkStatik"><i class="material-icons">apartment</i> Statik</label>
+    <input type="checkbox" id="chkMimari" checked onchange="filterTable()" hidden>
+    <label for="chkMimari"><i class="material-icons">home</i> Mimari</label>
+    <input type="checkbox" id="chkAltyapi" checked onchange="filterTable()" hidden>
+    <label for="chkAltyapi"><i class="material-icons">water</i> Altyapı</label>
+    <input type="checkbox" id="chkPeyzaj" checked onchange="filterTable()" hidden>
+    <label for="chkPeyzaj"><i class="material-icons">grass</i> Peyzaj</label>
+    <input type="checkbox" id="chkMekanik" checked onchange="filterTable()" hidden>
+    <label for="chkMekanik"><i class="material-icons">precision_manufacturing</i> Mekanik</label>
+    <input type="checkbox" id="chkElektrik" checked onchange="filterTable()" hidden>
+    <label for="chkElektrik"><i class="material-icons">electric_bolt</i> Elektrik</label>
+    <div class="filter-actions">
+      <button type="button" class="control-btn" id="selectAllFilters">Tümünü Seç</button>
+      <button type="button" class="control-btn" id="clearFilters">Temizle</button>
+      <input type="checkbox" id="matchAllMode" onchange="filterTable()" hidden>
+      <label for="matchAllMode" class="mode-toggle">Ortak Mod</label>
+    </div>
+  </div>
 </div>
 
 <p id="noResults">Eşleşen komut bulunamadı.</p>
+<div class="copy-toast" id="copyToast">Komut kopyalandı</div>
+<div class="detail-overlay" id="detailOverlay">
+  <div class="detail-dialog" role="dialog" aria-modal="true" aria-labelledby="detailCommand">
+    <div class="detail-head">
+      <h2 class="detail-title"><span class="command-badge" id="detailCommand">CMD</span></h2>
+      <button type="button" class="detail-close" id="detailClose" aria-label="Kapat">&times;</button>
+    </div>
+    <div class="detail-body">
+      <div id="detailDescription"></div>
+      <div class="detail-units" id="detailUnits"></div>
+    </div>
+  </div>
+</div>
 
+<div class="table-wrap">
 <table id="commandTable">
   <thead>
     <tr>
@@ -150,1543 +575,1926 @@
       <th>Mimari</th>
       <th>Altyapı</th>
       <th>Peyzaj</th>
+      <th>Mekanik</th>
+      <th>Elektrik</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td>A0</td>
+      <td><span class="command-badge">A0</span></td>
       <td class="desc">Proje çıktısının kaç adet A0 kağıda karşılık geldiğini hesaplayan lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>A2A</td>
+      <td><span class="command-badge">A2A</span></td>
       <td class="desc">Mahal alanlarını sıva alanına göre güncelleme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ALN</td>
+      <td><span class="command-badge">ALN</span></td>
       <td class="desc">Alan m² hesaplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>AE</td>
+      <td><span class="command-badge">AE</span></td>
       <td class="desc">Metraj hesaplamasında çarpan adet ekleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ASI</td>
+      <td><span class="command-badge">ASI</span></td>
       <td class="desc">Metrajda belirli bir öğenin adetini silme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ASM</td>
+      <td><span class="command-badge">ASM</span></td>
       <td class="desc">Asmolen kiriş çizimi için kullanılan lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ASMN</td>
+      <td><span class="command-badge">ASMN</span></td>
       <td class="desc">Asmolen kiriş döşeme ismi yazma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ATC</td>
+      <td><span class="command-badge">ATC</span></td>
       <td class="desc">Metni eğriye göre hizalama lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ATD</td>
+      <td><span class="command-badge">ATD</span></td>
       <td class="desc">Poligon perde donatı adetlerini boy açılımında değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BBD</td>
+      <td><span class="command-badge">BBD</span></td>
       <td class="desc">Ekleme noktası yerini koruyarak blok baz noktasını değiştiren lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BBDR</td>
+      <td><span class="command-badge">BBDR</span></td>
       <td class="desc">Blok konumunu koruyarak blok baz noktasını değiştiren lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BBH</td>
+      <td><span class="command-badge">BBH</span></td>
       <td class="desc">Bina boru hattı çizimi lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BEA</td>
-      <td class="desc">Blok alanlarını Excel’e aktaran lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td><span class="command-badge">BEA</span></td>
+      <td class="desc">Blok alanlarını Excel'e aktaran lispi.</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BDE</td>
+      <td><span class="command-badge">BDE</span></td>
       <td class="desc">Bacalara daire ekleme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BED</td>
+      <td><span class="command-badge">BED</span></td>
       <td class="desc">Baca ebatları düzenleme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BFIND</td>
+      <td><span class="command-badge">BFIND</span></td>
       <td class="desc">Toplu arama ve değiştirme yapan lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BHC</td>
+      <td><span class="command-badge">BHC</span></td>
       <td class="desc">Baca hattı çizimi lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BID</td>
+      <td><span class="command-badge">BID</span></td>
       <td class="desc">Nesne isimlerini değiştiren lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RBID</td>
+      <td><span class="command-badge">RBID</span></td>
       <td class="desc">Nesne isimlerini değiştiren ve değerlerini sıfırlayan lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BKH</td>
+      <td><span class="command-badge">BKH</span></td>
       <td class="desc">Bina köşe koordinatlarını isim (B1, B2 vb.) ve (X Y Z) olarak hesaplama lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BKP</td>
+      <td><span class="command-badge">BKP</span></td>
       <td class="desc">Bodrum kapama perdesi çizimi lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BNE</td>
+      <td><span class="command-badge">BNE</span></td>
       <td class="desc">Blok içine kolay nesne ekleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BOL</td>
+      <td><span class="command-badge">BOL</span></td>
       <td class="desc">Seçilen noktalar arasını bölme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RBOL</td>
+      <td><span class="command-badge">RBOL</span></td>
       <td class="desc">Seçilen noktalar arasını bölen değerleri sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BSE</td>
+      <td><span class="command-badge">BSE</span></td>
       <td class="desc">Yazı başına ve sonuna ekleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>BTK</td>
+      <td><span class="command-badge">BTK</span></td>
       <td class="desc">Bitki sayım lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>CB</td>
+      <td><span class="command-badge">CB</span></td>
       <td class="desc">Blok kopyalama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RB</td>
+      <td><span class="command-badge">RB</span></td>
       <td class="desc">Yeni blok kopyalama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>CER</td>
+      <td><span class="command-badge">CER</span></td>
       <td class="desc">Çerçeve çizimi lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>CLX</td>
+      <td><span class="command-badge">CLX</span></td>
       <td class="desc">Çizimdeki bütün nesnelerin rengini seçilen renk ile değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>CLXS</td>
+      <td><span class="command-badge">CLXS</span></td>
       <td class="desc">Çizimdeki seçilen layerlara ait nesnelerin rengini seçilen renk ile değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>CY</td>
+      <td><span class="command-badge">CY</span></td>
       <td class="desc">Seçilen yazılardaki sayıların çarpımını hesaplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DAD</td>
+      <td><span class="command-badge">DAD</span></td>
       <td class="desc">Metraj adet değişikliği lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DAY</td>
+      <td><span class="command-badge">DAY</span></td>
       <td class="desc">Donatı çapını aşağı yuvarlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DYY</td>
+      <td><span class="command-badge">DYY</span></td>
       <td class="desc">Donatı çapını yukarı yuvarlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DCD</td>
+      <td><span class="command-badge">DCD</span></td>
       <td class="desc">Donatı uzunluğunu değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RDCD</td>
+      <td><span class="command-badge">RDCD</span></td>
       <td class="desc">Donatı uzunluğunu değiştirme değerlerini sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DEG</td>
+      <td><span class="command-badge">DEG</span></td>
       <td class="desc">Donatılara değişken yazma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DDS</td>
+      <td><span class="command-badge">DDS</span></td>
       <td class="desc">Düşey donatı sayım lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DEC</td>
+      <td><span class="command-badge">DEC</span></td>
       <td class="desc">Donatıya uzunluk ekleme ve çıkarma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DF</td>
+      <td><span class="command-badge">DF</span></td>
       <td class="desc">İç ölçü atma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SH</td>
+      <td><span class="command-badge">SH</span></td>
       <td class="desc">Hatch maker lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DH</td>
+      <td><span class="command-badge">DH</span></td>
       <td class="desc">Hatch maker lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DKOT</td>
+      <td><span class="command-badge">DKOT</span></td>
       <td class="desc">Deniz kotu değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DKS</td>
+      <td><span class="command-badge">DKS</span></td>
       <td class="desc">Deniz kotu silme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>    
     <tr>
-      <td>DKH</td>
+      <td><span class="command-badge">DKH</span></td>
       <td class="desc">Doğrusal koordinat hesaplama lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr> 
     <tr>
-      <td>UKH</td>
+      <td><span class="command-badge">UKH</span></td>
       <td class="desc">Üçgen koordinat hesaplama lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DUA</td>
+      <td><span class="command-badge">DUA</span></td>
       <td class="desc">Duvar üst-alt kota göre uzunluk yazma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DOT</td>
+      <td><span class="command-badge">DOT</span></td>
       <td class="desc">Donatıları taşıma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DUD</td>
+      <td><span class="command-badge">DUD</span></td>
       <td class="desc">Etriye donatı uzunluğunu değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DYS</td>
+      <td><span class="command-badge">DYS</span></td>
       <td class="desc">Ölçülerin yazılarını sabitleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>E2P</td>
+      <td><span class="command-badge">E2P</span></td>
       <td class="desc">Elipsleri polylinelara çevirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>EGM</td>
+      <td><span class="command-badge">EGM</span></td>
       <td class="desc">Eğim bulma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>EKLE</td>
+      <td><span class="command-badge">EKLE</span></td>
       <td class="desc">Yazı ve ölçü ekleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>EYD</td>
+      <td><span class="command-badge">EYD</span></td>
       <td class="desc">Etriye yazısını değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>EKOT</td>
+      <td><span class="command-badge">EKOT</span></td>
       <td class="desc">Eğim kotu bulma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>EM2</td>
+      <td><span class="command-badge">EM2</span></td>
       <td class="desc">Emsal metrekare tablo çizim lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ETC</td>
+      <td><span class="command-badge">ETC</span></td>
       <td class="desc">Etap'tan temel çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ETR</td>
+      <td><span class="command-badge">ETR</span></td>
       <td class="desc">Manuel etriye çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>OETR</td>
+      <td><span class="command-badge">OETR</span></td>
       <td class="desc">Otomatik etriye çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>FLZ</td>
+      <td><span class="command-badge">FLZ</span></td>
       <td class="desc">Filiz donatısı çizme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>GTD</td>
+      <td><span class="command-badge">GTD</span></td>
       <td class="desc">Grafikten temel ilave donatı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HB</td>
+      <td><span class="command-badge">HB</span></td>
       <td class="desc">Hatch çerçevelendirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HCM</td>
+      <td><span class="command-badge">HCM</span></td>
       <td class="desc">Tek hasırın ismini düzenleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HED</td>
+      <td><span class="command-badge">HED</span></td>
       <td class="desc">Hasır ebatları düzenleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RHED</td>
+      <td><span class="command-badge">RHED</span></td>
       <td class="desc">Hasır ebatları düzenleme değerlerini sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HJ</td>
+      <td><span class="command-badge">HJ</span></td>
       <td class="desc">Hatch birleştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HM</td>
+      <td><span class="command-badge">HM</span></td>
       <td class="desc">Hatch taşıma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HRG</td>
+      <td><span class="command-badge">HRG</span></td>
       <td class="desc">Hasır cinslerini renklerine göre gruplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HSP</td>
+      <td><span class="command-badge">HSP</span></td>
       <td class="desc">Statik hesaplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HT</td>
+      <td><span class="command-badge">HT</span></td>
       <td class="desc">Hızlı trimleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>HYU</td>
+      <td><span class="command-badge">HYU</span></td>
       <td class="desc">Hissedilebilir yüzey çizim lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RHR</td>
+      <td><span class="command-badge">RHR</span></td>
       <td class="desc">Düz hasır çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TRHR</td>
+      <td><span class="command-badge">TRHR</span></td>
       <td class="desc">Ters hasır çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>QHR</td>
+      <td><span class="command-badge">QHR</span></td>
       <td class="desc">Çift yönlü hasır çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ICC</td>
+      <td><span class="command-badge">ICC</span></td>
       <td class="desc">Obje içine maksimum daire çizme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>IHC</td>
+      <td><span class="command-badge">IHC</span></td>
       <td class="desc">İçme suyu hat çizim lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>IKY</td>
+      <td><span class="command-badge">IKY</span></td>
       <td class="desc">İçme suyu kot yerleştirme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ISS</td>
+      <td><span class="command-badge">ISS</span></td>
       <td class="desc">İçme suyu baca çizimlerini İSKİ standartlarına göre değiştirme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>JJ</td>
+      <td><span class="command-badge">JJ</span></td>
       <td class="desc">Line / Pline / 3Dpline / Spline nesnelerini polyline yapıp birleştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KAD</td>
+      <td><span class="command-badge">KAD</span></td>
       <td class="desc">Konsol alt donatısı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KAP</td>
+      <td><span class="command-badge">KAP</span></td>
       <td class="desc">Kolon aplikasyon paftalama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KATD</td>
+      <td><span class="command-badge">KATD</span></td>
       <td class="desc">Kolon ebatlarına göre gruplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KCD</td>
+      <td><span class="command-badge">KCD</span></td>
       <td class="desc">Kiriş çapraz donatısı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>OKCD</td>
+      <td><span class="command-badge">OKCD</span></td>
       <td class="desc">Otomatik kiriş çapraz donatısı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KCE</td>
+      <td><span class="command-badge">KCE</span></td>
       <td class="desc">Kot çizme ve ekleme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KCED</td>
+      <td><span class="command-badge">KCED</span></td>
       <td class="desc">Çizilen kot değerlerini değiştirme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KD</td>
+      <td><span class="command-badge">KD</span></td>
       <td class="desc">Konsol Alt-Üst-Yelpaza donatı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KIY</td>
+      <td><span class="command-badge">KIY</span></td>
       <td class="desc">Kot işareti yerleştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KKL</td>
+      <td><span class="command-badge">KKL</span></td>
       <td class="desc">Kazık koordinatları listeleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KKV</td>
+      <td><span class="command-badge">KKV</span></td>
       <td class="desc">Kesit kotlarını verme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KO</td>
+      <td><span class="command-badge">KO</span></td>
       <td class="desc">Kolon aplikasyon ölçüsü atma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KOOR</td>
+      <td><span class="command-badge">KOOR</span></td>
       <td class="desc">Köşe koordinatlarını yazan lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KOT</td>
+      <td><span class="command-badge">KOT</span></td>
       <td class="desc">Kot düzenleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KOTUP</td>
+      <td><span class="command-badge">KOTUP</span></td>
       <td class="desc">Kot güncelleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KPC</td>
+      <td><span class="command-badge">KPC</span></td>
       <td class="desc">Kapama perdesi çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KPH</td>
+      <td><span class="command-badge">KPH</span></td>
       <td class="desc">Kapı / Pencere listesi hazırlama lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KPKC</td>
+      <td><span class="command-badge">KPKC</span></td>
       <td class="desc">Köy evleri için plankote çizim lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KPL</td>
+      <td><span class="command-badge">KPL</span></td>
       <td class="desc">Kapı / Pencere listesini Excele aktarma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KUK</td>
+      <td><span class="command-badge">KUK</span></td>
       <td class="desc">Kiriş üst kot yazma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KUKRES</td>
+      <td><span class="command-badge">KUKRES</span></td>
       <td class="desc">Kiriş üst kot yazma değerlerini sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KSDN</td>
+      <td><span class="command-badge">KSDN</span></td>
       <td class="desc">Kiriş kolon döşeme nervür otomatik numaralama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>KYB</td>
+      <td><span class="command-badge">KYB</span></td>
       <td class="desc">Kolon isim ve ebat yazılarını birleştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>LCS</td>
+      <td><span class="command-badge">LCS</span></td>
       <td class="desc">Lateral spring bağlantı hattı çizim lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>LDON</td>
+      <td><span class="command-badge">LDON</span></td>
       <td class="desc">Komuta göre otomatik layer seçimi özelliği açma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>LDOFF</td>
+      <td><span class="command-badge">LDOFF</span></td>
       <td class="desc">Komuta göre otomatik layer seçimi özelliği kapatma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>LID</td>
+      <td><span class="command-badge">LID</span></td>
       <td class="desc">Layer isim değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>LOD</td>
+      <td><span class="command-badge">LOD</span></td>
       <td class="desc">Layout düzenleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MAD</td>
+      <td><span class="command-badge">MAD</span></td>
       <td class="desc">Mantar donatı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>DOKU</td>
+      <td><span class="command-badge">DOKU</span></td>
       <td class="desc">Mantar donatı oku çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MBD</td>
+      <td><span class="command-badge">MBD</span></td>
       <td class="desc">Daha önce yerleştirilmiş olan m2 bloklarını güncelleme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MBL</td>
+      <td><span class="command-badge">MBL</span></td>
       <td class="desc">Düzenlenmiş m2 bloklarını Excel'e aktarma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MBY</td>
+      <td><span class="command-badge">MBY</span></td>
       <td class="desc">M2 bloklarını seçilen alan poligonlarının merkezine yerleştirme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MKE</td>
+      <td><span class="command-badge">MKE</span></td>
       <td class="desc">Mahal kaplama Excel listesi hazırlama lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MML</td>
+      <td><span class="command-badge">MML</span></td>
       <td class="desc">Mahal malzeme listesi Excel oluşturma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MNE</td>
+      <td><span class="command-badge">MNE</span></td>
       <td class="desc">M2 blokları mahal numaralarını arttırma ya da eksiltme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MNV</td>
+      <td><span class="command-badge">MNV</span></td>
       <td class="desc">M2 bloklarını seçilen sırada numaralandırma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MAKELT</td>
+      <td><span class="command-badge">MAKELT</span></td>
       <td class="desc">Line type oluşturma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MDA</td>
+      <td><span class="command-badge">MDA</span></td>
       <td class="desc">Metraj donatı adeti yazma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RMDA</td>
+      <td><span class="command-badge">RMDA</span></td>
       <td class="desc">Metraj donatı adeti yazma değerlerini sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MET</td>
+      <td><span class="command-badge">MET</span></td>
       <td class="desc">Metraj çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>GMET</td>
+      <td><span class="command-badge">GMET</span></td>
       <td class="desc">Genel metraj çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MIR</td>
+      <td><span class="command-badge">MIR</span></td>
       <td class="desc">Otomatik mirror alma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MLAD</td>
+      <td><span class="command-badge">MLAD</span></td>
       <td class="desc">Metraj layer değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>M0</td>
+      <td><span class="command-badge">M0</span></td>
       <td class="desc">M2 değerlerini sıfırlama lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>MPS</td>
+      <td><span class="command-badge">MPS</span></td>
       <td class="desc">Metraj poz silme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>NI</td>
+      <td><span class="command-badge">NI</span></td>
       <td class="desc">Çerçeveli ya da çerçevesiz numaralandırma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>O2F</td>
+      <td><span class="command-badge">O2F</span></td>
       <td class="desc">Textleri Ø 'ye dönüştürme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PADH</td>
+      <td><span class="command-badge">PADH</span></td>
       <td class="desc">Pursantaj ile as ve donatı hesaplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PALL</td>
+      <td><span class="command-badge">PALL</span></td>
       <td class="desc">Otomatik purge lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PBA</td>
+      <td><span class="command-badge">PBA</span></td>
       <td class="desc">Manuel perde boy açılımı lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>OPBA</td>
+      <td><span class="command-badge">OPBA</span></td>
       <td class="desc">Otomatik perde boy açılımı lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PC</td>
+      <td><span class="command-badge">PC</span></td>
       <td class="desc">Polyline uçları kapatma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PDD</td>
+      <td><span class="command-badge">PDD</span></td>
       <td class="desc">Panel dikey donatı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PKAD</td>
+      <td><span class="command-badge">PKAD</span></td>
       <td class="desc">Perde / Kolon adet değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PKC</td>
+      <td><span class="command-badge">PKC</span></td>
       <td class="desc">Plankote çizim lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PKL</td>
+      <td><span class="command-badge">PKL</span></td>
       <td class="desc">Proje kayıt listesini gösteren lisp. (İsteyen şirketlerde çalışır.)</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PNE</td>
+      <td><span class="command-badge">PNE</span></td>
       <td class="desc">Projelere not (gizli) ekleme lispi. (İsteyen şirketlerde çalışır.) </td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>POD</td>
+      <td><span class="command-badge">POD</span></td>
       <td class="desc">Patlamış ölçü düzenleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PRP</td>
+      <td><span class="command-badge">PRP</span></td>
       <td class="desc">Parapet çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PUB</td>
+      <td><span class="command-badge">PUB</span></td>
       <td class="desc">Paralel uçları birleştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PWE</td>
+      <td><span class="command-badge">PWE</span></td>
       <td class="desc">Polyline üzerine vertex ekleme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PYD</td>
+      <td><span class="command-badge">PYD</span></td>
       <td class="desc">Perde yatay donatı lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PYEK</td>
+      <td><span class="command-badge">PYEK</span></td>
       <td class="desc">Peyzaj yol eğim kotları hesaplama lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>PW</td>
+      <td><span class="command-badge">PW</span></td>
       <td class="desc">Polyline çizgi kalınlığı değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>QW</td>
+      <td><span class="command-badge">QW</span></td>
       <td class="desc">Osmod değerlerini full açma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>QF</td>
+      <td><span class="command-badge">QF</span></td>
       <td class="desc">Kiriş/Kolon/Perde isimlerini hızlı arama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RQF</td>
+      <td><span class="command-badge">RQF</span></td>
       <td class="desc">Kiriş/Kolon/Perde isimlerini hızlı arama değerlerini sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RTE</td>
+      <td><span class="command-badge">RTE</span></td>
       <td class="desc">Açıların toplam adet yazma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>S2D</td>
+      <td><span class="command-badge">S2D</span></td>
       <td class="desc">Sta layerlarını şirket layerlarına değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SAFT</td>
+      <td><span class="command-badge">SAFT</span></td>
       <td class="desc">Şaft çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SDK</td>
+      <td><span class="command-badge">SDK</span></td>
       <td class="desc">Sabit değerli kopyalama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RSDK</td>
+      <td><span class="command-badge">RSDK</span></td>
       <td class="desc">Sabit değerli kopyalama değerleri sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SDT</td>
+      <td><span class="command-badge">SDT</span></td>
       <td class="desc">Sabit değerli taşıma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>RSDT</td>
+      <td><span class="command-badge">RSDT</span></td>
       <td class="desc">Sabit değerli taşıma değerleri sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SEC</td>
+      <td><span class="command-badge">SEC</span></td>
       <td class="desc">Sayılara istenilen sayı ekleme/çıkarma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SIRA</td>
+      <td><span class="command-badge">SIRA</span></td>
       <td class="desc">Text sıralama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>      
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>      
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SNN</td>
+      <td><span class="command-badge">SNN</span></td>
       <td class="desc">Snap değerini sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SPC</td>
+      <td><span class="command-badge">SPC</span></td>
       <td class="desc">Subaman perdesi çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SR</td>
+      <td><span class="command-badge">SR</span></td>
       <td class="desc">Noktalara göre snap değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SRR</td>
+      <td><span class="command-badge">SRR</span></td>
       <td class="desc">Line veya yazıya göre snap değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SOM</td>
+      <td><span class="command-badge">SOM</span></td>
       <td class="desc">Seçimi ortadan aynalama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SPR</td>
+      <td><span class="command-badge">SPR</span></td>
       <td class="desc">Spring çizim lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SX</td>
+      <td><span class="command-badge">SX</span></td>
       <td class="desc">Çizimin tamamını büyütme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>SYD</td>
+      <td><span class="command-badge">SYD</span></td>
       <td class="desc">Yazıları nesneye göre döndürme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TAS</td>
+      <td><span class="command-badge">TAS</span></td>
       <td class="desc">Toplam as hesaplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TB</td>
-      <td class="desc">Text’i boşluklardan bölme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td><span class="command-badge">TB</span></td>
+      <td class="desc">Text'i boşluklardan bölme lispi.</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TD</td>
+      <td><span class="command-badge">TD</span></td>
       <td class="desc">Temel donatı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TDOKU</td>
+      <td><span class="command-badge">TDOKU</span></td>
       <td class="desc">Temel ölçü layerları değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TEA</td>
-      <td class="desc">Toplam emsal alanı Excel’e aktarma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td><span class="command-badge">TEA</span></td>
+      <td class="desc">Toplam emsal alanı Excel'e aktarma lispi.</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>THVL</td>
+      <td><span class="command-badge">THVL</span></td>
       <td class="desc">Donatı tahvili yapma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TID</td>
+      <td><span class="command-badge">TID</span></td>
       <td class="desc">Temel ilave donatı çizim lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TKD</td>
+      <td><span class="command-badge">TKD</span></td>
       <td class="desc">Terasman kot değiştirme lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TMR</td>
+      <td><span class="command-badge">TMR</span></td>
       <td class="desc">Text mirror lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TRD</td>
+      <td><span class="command-badge">TRD</span></td>
       <td class="desc">Kolon tablosunda renk değiştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TRS</td>
+      <td><span class="command-badge">TRS</span></td>
       <td class="desc">Kolon tablosunda renk sıfırlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TRC</td>
+      <td><span class="command-badge">TRC</span></td>
       <td class="desc">Kolon tablosunda seçilen değerin aynı değerde olanlarının rendini değiştiren lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TRG</td>
+      <td><span class="command-badge">TRG</span></td>
       <td class="desc">Kolon tablosunda seçilen gövde donatılarının aralıklarını değiştirme.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TSM</td>
+      <td><span class="command-badge">TSM</span></td>
       <td class="desc">Text style merge (yazı stili birleştirme) lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TPU</td>
+      <td><span class="command-badge">TPU</span></td>
       <td class="desc">Proje toplam uzunluğu hesaplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TTO</td>
+      <td><span class="command-badge">TTO</span></td>
       <td class="desc">Toplam tablosu oluşturma lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>TY</td>
+      <td><span class="command-badge">TY</span></td>
       <td class="desc">Seçilen yazılardaki sayıların toplamını hesaplama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>UDB</td>
+      <td><span class="command-badge">UDB</span></td>
       <td class="desc">Uzun donatıları bulma lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
-      <td class="no">&#10008;</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>YEK</td>
+      <td><span class="command-badge">YEK</span></td>
       <td class="desc">Yol eğim kotu lispi.</td>
-      <td class="no">&#10008;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="no">✘</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>YK</td>
+      <td><span class="command-badge">YK</span></td>
       <td class="desc">Belirtilen iki nokta arasında nesneleri eşit kopyalama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>YUV</td>
+      <td><span class="command-badge">YUV</span></td>
       <td class="desc">Sayıları ya da uzunlukları yuvarlama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>YZB</td>
+      <td><span class="command-badge">YZB</span></td>
       <td class="desc">Yazıları birleştirme lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
     <tr>
-      <td>ZX</td>
+      <td><span class="command-badge">ZX</span></td>
       <td class="desc">Yazının değerini diğer yazıya kopyalama lispi.</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
-      <td class="yes">&#10004;</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="yes">✔</td>
+      <td class="no">✘</td>
+      <td class="no">✘</td>
     </tr>
   </tbody>
 </table>
+</div>
 
 <script>
+const categoryFilters = [
+  { id: "chkStatik", label: "Statik", column: 2 },
+  { id: "chkMimari", label: "Mimari", column: 3 },
+  { id: "chkAltyapi", label: "Altyapı", column: 4 },
+  { id: "chkPeyzaj", label: "Peyzaj", column: 5 },
+  { id: "chkMekanik", label: "Mekanik", column: 6 },
+  { id: "chkElektrik", label: "Elektrik", column: 7 }
+];
+
+function getActiveFilters() {
+  return categoryFilters.filter(filter => document.getElementById(filter.id).checked);
+}
+
 function filterTable() {
   const input = document.getElementById("searchInput").value.toLowerCase();
   const rows = document.querySelectorAll("#commandTable tbody tr");
-  const statikChecked = document.getElementById("chkStatik").checked;
-  const mimariChecked = document.getElementById("chkMimari").checked;
-  const altyapiChecked = document.getElementById("chkAltyapi").checked;
-  const peyzajChecked = document.getElementById("chkPeyzaj").checked;
+  const activeFilters = getActiveFilters();
+  const matchAll = document.getElementById("matchAllMode").checked;
 
   let visibleCount = 0;
 
   rows.forEach(row => {
     const command = row.cells[0].innerText.toLowerCase();
     const description = row.cells[1].innerText.toLowerCase();
-
     const matchText = command.includes(input) || description.includes(input);
-
-    const isStatik = row.cells[2].classList.contains("yes");
-    const isMimari = row.cells[3].classList.contains("yes");
-    const isAltyapi = row.cells[4].classList.contains("yes");
-    const isPeyzaj = row.cells[5].classList.contains("yes");
-
-    const matchKategori =
-      (statikChecked && isStatik) ||
-      (mimariChecked && isMimari) ||
-      (altyapiChecked && isAltyapi) ||
-      (peyzajChecked && isPeyzaj);
+    const matchKategori = activeFilters.length > 0 && (
+      matchAll
+        ? activeFilters.every(filter => row.cells[filter.column].classList.contains("yes"))
+        : activeFilters.some(filter => row.cells[filter.column].classList.contains("yes"))
+    );
 
     if (matchText && matchKategori) {
       row.style.display = "";
@@ -1697,24 +2505,99 @@ function filterTable() {
   });
 
   document.getElementById("noResults").style.display = visibleCount === 0 ? "block" : "none";
+  const summary = document.getElementById("resultSummary");
+  if (summary) {
+    const activeText = activeFilters.length ? activeFilters.map(filter => filter.label).join(", ") : "Yok";
+    const modeText = matchAll ? "Ortak" : "Herhangi";
+    summary.innerHTML = `Toplam ${rows.length} komut | Görünen ${visibleCount} | Aktif: ${activeText} | Mod: ${modeText}`;
+  }
 }
+
+function setAllFilters(checked) {
+  categoryFilters.forEach(filter => {
+    document.getElementById(filter.id).checked = checked;
+  });
+  filterTable();
+}
+
+function showCopyToast(command) {
+  const toast = document.getElementById("copyToast");
+  if (!toast) return;
+  toast.textContent = `${command} kopyalandı`;
+  toast.classList.add("show");
+  clearTimeout(window.copyToastTimer);
+  window.copyToastTimer = setTimeout(() => toast.classList.remove("show"), 1300);
+}
+
+function copyCommand(command) {
+  const fallbackCopy = () => {
+    const tempInput = document.createElement("textarea");
+    tempInput.value = command;
+    tempInput.setAttribute("readonly", "");
+    tempInput.style.position = "fixed";
+    tempInput.style.opacity = "0";
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    tempInput.remove();
+  };
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(command).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+  showCopyToast(command);
+}
+
+function openDetail(row) {
+  const command = row.cells[0].innerText.trim();
+  const description = row.cells[1].innerText.trim();
+  const units = categoryFilters
+    .filter(filter => row.cells[filter.column].classList.contains("yes"))
+    .map(filter => filter.label);
+
+  document.getElementById("detailCommand").textContent = command;
+  document.getElementById("detailDescription").textContent = description;
+  document.getElementById("detailUnits").innerHTML = units.length
+    ? units.map(unit => `<span class="unit-chip">${unit}</span>`).join("")
+    : `<span class="unit-chip">Aktif birim yok</span>`;
+  document.getElementById("detailOverlay").classList.add("show");
+}
+
+function closeDetail() {
+  document.getElementById("detailOverlay").classList.remove("show");
+}
+
+document.getElementById("selectAllFilters").addEventListener("click", () => setAllFilters(true));
+document.getElementById("clearFilters").addEventListener("click", () => setAllFilters(false));
+document.getElementById("detailClose").addEventListener("click", closeDetail);
+document.getElementById("detailOverlay").addEventListener("click", event => {
+  if (event.target.id === "detailOverlay") closeDetail();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeDetail();
+});
+
+document.querySelectorAll("#commandTable tbody tr").forEach(row => {
+  row.addEventListener("dblclick", () => openDetail(row));
+});
+
+document.querySelectorAll("#commandTable tbody .command-badge").forEach(badge => {
+  badge.title = "Komutu kopyala; detay için çift tıkla";
+  badge.addEventListener("click", event => {
+    event.stopPropagation();
+    copyCommand(badge.textContent.trim());
+  });
+  badge.addEventListener("dblclick", event => {
+    event.stopPropagation();
+    openDetail(badge.closest("tr"));
+  });
+});
+
+filterTable();
 </script>
 
+</div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
